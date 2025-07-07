@@ -1,0 +1,454 @@
+​​<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>មជ្ឈមណ្ឌលបណ្ដុះបណ្ដាលពុទ្ធិ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Koulen&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', 'Inter', sans-serif;
+            background-color: #f9fafb; /* gray-50 */
+        }
+        .font-koulen {
+            font-family: 'Koulen', sans-serif;
+        }
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link.active {
+            color: #ffffff;
+            font-weight: 700;
+        }
+        
+        /* CSS បន្ថែមសម្រាប់ควบคุม UI ตอน Login */
+        /* លាក់ប៊ូតុង Login និងបង្ហាញ User Info ពេល Login ចូល */
+        body[data-is-logged-in="true"] #login-btn,
+        body[data-is-logged-in="true"] #mobile-login-btn {
+            display: none;
+        }
+        body[data-is-logged-in="true"] #user-info,
+        body[data-is-logged-in="true"] #mobile-user-info,
+        body[data-is-logged-in="true"] #nav-dashboard,
+        body[data-is-logged-in="true"] #mobile-nav-dashboard {
+            display: flex;
+        }
+
+        /* លាក់ User Info និងបង្ហាញប៊ូតុង Login ពេលមិនទាន់ Login */
+        body:not([data-is-logged-in="true"]) #user-info,
+        body:not([data-is-logged-in="true"]) #mobile-user-info,
+        body:not([data-is-logged-in="true"]) #nav-dashboard,
+        body:not([data-is-logged-in="true"]) #mobile-nav-dashboard {
+            display: none;
+        }
+        
+        /* ធ្វើឱ្យ mobile user info បង្ហាញជាជួរដេក */
+        #mobile-user-info {
+            flex-direction: column;
+        }
+
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-blue-900 text-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-xl font-bold font-koulen text-white">ក្រុមអ្នកនិពន្ធកម្ពុជា</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="nav-link">ទំព័រដើម</a>
+                <a href="#courses" class="nav-link">វគ្គសិក្សា</a>
+                <a href="#verify" class="nav-link">ផ្ទៀងផ្ទាត់</a>
+                <a href="#dashboard" id="nav-dashboard" class="nav-link">ផ្ទាំងគ្រប់គ្រង</a>
+            </div>
+            <div class="flex items-center">
+                <div class="hidden md:flex items-center space-x-4">
+                     <a href="#login" id="login-btn" class="bg-white text-blue-700 py-2 px-4 rounded-md hover:bg-gray-200 transition font-semibold">ចូលគណនី</a>
+                     <div id="user-info" class="items-center gap-4">
+                        <span id="user-name" class="font-semibold"></span>
+                        <button id="logout-btn" class="bg-red-500 text-white py-2 px-3 rounded-md hover:bg-red-600 text-sm">ចាកចេញ</button>
+                     </div>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none ml-4">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-blue-800 px-6 pb-4">
+            <a href="#home" class="mobile-nav-link block py-2 nav-link">ទំព័រដើម</a>
+            <a href="#courses" class="mobile-nav-link block py-2 nav-link">វគ្គសិក្សា</a>
+            <a href="#verify" class="mobile-nav-link block py-2 nav-link">ផ្ទៀងផ្ទាត់</a>
+            <a href="#dashboard" id="mobile-nav-dashboard" class="mobile-nav-link block py-2 nav-link">ផ្ទាំងគ្រប់គ្រង</a>
+            <div class="mt-4 pt-4 border-t border-blue-700">
+                 <a href="#login" id="mobile-login-btn" class="mobile-nav-link bg-white text-blue-700 py-2 px-4 rounded-md hover:bg-gray-200 transition w-full block text-center font-semibold">ចូលគណនី</a>
+                 <div id="mobile-user-info" class="items-center">
+                    <span id="mobile-user-name" class="font-semibold"></span>
+                    <button id="mobile-logout-btn" class="bg-red-500 text-white py-2 px-3 rounded-md hover:bg-red-600 text-sm w-full mt-2">ចាកចេញ</button>
+                 </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container mx-auto px-6 py-8 md:py-12">
+        <div id="home-page" class="page">
+            <section class="text-center bg-white p-8 md:p-16 rounded-xl shadow-lg">
+                <h2 class="text-4xl md:text-5xl font-bold text-blue-800 mb-4 font-koulen leading-tight">សូមស្វាគមន៍មកកាន់</h2>
+				<h1 class="text-4xl md:text-5xl font-bold text-blue-800 mb-4 font-koulen leading-tight">មជ្ឈមណ្ឌលបណ្ដុះបណ្ដាលពុទ្ធិ</h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-8">​គឺជាកន្លែងបណ្ដុះបណ្ដាលពុទ្ធិដល់សិក្សានុសិស្សទាំងឡាយ</p>
+                <a href="#courses" class="bg-blue-700 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-blue-800 transition-transform transform hover:scale-105">មើលវគ្គសិក្សាទាំងអស់</a>
+            </section>
+        </div>
+
+        <div id="courses-page" class="page">
+            <h1 class="text-4xl font-bold mb-2 font-koulen">វគ្គសិក្សាទាំងអស់</h1>
+            <p class="text-gray-600 mb-8">ស្វែងរកវគ្គសិក្សាដែលសាកសមនឹងអ្នកបំផុត។</p>
+            
+            <div id="course-filters" class="mb-8 flex flex-wrap gap-2">
+                <button class="filter-btn active bg-blue-700 text-white py-2 px-4 rounded-md" data-filter="all">ទាំងអស់</button>
+                <button class="filter-btn bg-white text-gray-700 py-2 px-4 rounded-md border" data-filter="free">ឥតគិតថ្លៃ</button>
+                <button class="filter-btn bg-white text-gray-700 py-2 px-4 rounded-md border" data-filter="paid">គិតថ្លៃ</button>
+            </div>
+
+            <div id="courses-container" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                </div>
+        </div>
+
+        <div id="course-detail-page" class="page">
+            </div>
+
+        <div id="dashboard-page" class="page">
+             <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg">
+                <h1 class="text-4xl font-bold mb-8 font-koulen">ផ្ទាំងគ្រប់គ្រងរបស់ខ្ញុំ</h1>
+                <div id="my-courses-container" class="space-y-6">
+                    </div>
+             </div>
+        </div>
+        
+        <div id="verify-page" class="page">
+            <div class="max-w-2xl mx-auto bg-white p-8 md:p-12 rounded-xl shadow-lg">
+                <h1 class="text-3xl font-bold mb-6 text-center font-koulen">ផ្ទៀងផ្ទាត់លេខកូដ</h1>
+                <p class="text-center text-gray-600 mb-8">សូមបញ្ចូលលេខកូដដែលទទួលបានពីក្រុមការងារ ដើម្បីពិនិត្យសុពលភាព។</p>
+                <div class="flex gap-2">
+                    <input type="text" id="verification-code-input" placeholder="ឧ: MBP-25-1234" class="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
+                    <button id="verify-btn" class="bg-blue-700 text-white py-3 px-6 rounded-md font-semibold hover:bg-blue-800">ផ្ទៀងផ្ទាត់</button>
+                </div>
+                <div id="verification-result" class="mt-8"></div>
+            </div>
+        </div>
+
+        <div id="login-page" class="page">
+             <div class="max-w-md mx-auto bg-white p-8 md:p-12 rounded-xl shadow-lg">
+                <h1 class="text-3xl font-bold mb-8 text-center font-koulen">ចូលគណនី</h1>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label for="student-name" class="block text-gray-700 font-semibold mb-2">ឈ្មោះសិស្ស</label>
+                        <input type="text" id="student-name" placeholder="ឧ: កែវ សុវណ្ណបូរមី" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="student-id" class="block text-gray-700 font-semibold mb-2">អត្តលេខសិស្ស</label>
+                        <input type="text" id="student-id" placeholder="ឧ: 909090" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-700 text-white py-3 rounded-md font-semibold hover:bg-blue-800 transition">ចូលគណនី</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <template id="course-card-template">
+        <a href="#" class="course-card-link block bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div class="relative">
+                <img src="" alt="" class="course-image w-full h-48 object-cover">
+                <div class="absolute top-4 left-4 bg-blue-600 text-white py-1 px-3 rounded text-sm font-medium course-category"></div>
+                <img src="" alt="" class="absolute top-4 right-4 w-10 h-10 rounded-full border-2 border-white shadow-md course-instructor-avatar">
+            </div>
+            <div class="p-5">
+                <h3 class="font-bold text-lg min-h-[56px] course-title"></h3>
+                <div class="flex items-center mt-2 text-sm text-gray-500">
+                    <div class="text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <span class="font-bold text-gray-700 ml-1 course-rating"></span>
+                    </div>
+                    <span class="mx-2">|</span>
+                    <span class="course-reviews"></span>
+                </div>
+                <p class="mt-3 text-xl font-bold course-price"></p>
+                <div class="mt-4 pt-4 border-t flex justify-between items-center text-sm text-gray-600">
+                    <span><i class="fas fa-book-open mr-2"></i><span class="course-lessons"></span> មេរៀន</span>
+                    <span><i class="fas fa-user-friends mr-2"></i><span class="course-students"></span> សិស្ស</span>
+                </div>
+            </div>
+        </a>
+    </template>
+
+    <template id="dashboard-item-template">
+         <div class="border p-6 rounded-lg bg-gray-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h3 class="text-xl font-bold text-blue-800 course-title"></h3>
+                <p class="text-sm text-gray-500 course-instructor"></p>
+            </div>
+            <div class="mt-2 md:mt-0">
+                <a href="#" target="_blank" class="telegram-link bg-blue-600 text-white py-2 px-5 rounded-md hover:bg-blue-700">ចូលរៀនក្នុង Telegram <i class="fab fa-telegram-plane ml-2"></i></a>
+            </div>
+        </div>
+    </template>
+    
+    <script src="courses.js"></script>
+    <script src="data.js"></script> 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- STATE (ស្ថានភាពកម្មវិធី) ---
+        let loggedInUser = null;
+
+        // --- SELECTORS (សម្រាប់หยิบ HTML elements) ---
+        const mainContent = document.getElementById('main-content');
+        const courseCardTemplate = document.getElementById('course-card-template');
+        const dashboardItemTemplate = document.getElementById('dashboard-item-template');
+        const coursesContainer = document.getElementById('courses-container');
+        const myCoursesContainer = document.getElementById('my-courses-container');
+        const courseDetailPage = document.getElementById('course-detail-page');
+
+        // --- FUNCTIONS (ฟังก์ชัน) ---
+
+        function login(studentName, studentId) {
+            const user = studentsDB.find(s => s.name === studentName && s.id === studentId);
+            if (user) {
+                loggedInUser = user;
+                updateUIForLoginState();
+                window.location.hash = '#home';
+            } else {
+                alert('ឈ្មោះ ឬអត្តលេខសិស្សមិនត្រឹមត្រូវ!');
+            }
+        }
+
+        function logout() {
+            loggedInUser = null;
+            updateUIForLoginState();
+            window.location.hash = '#home';
+        }
+
+        function updateUIForLoginState() {
+            const isLoggedIn = !!loggedInUser;
+            document.body.dataset.isLoggedIn = isLoggedIn;
+            if (isLoggedIn) {
+                document.querySelectorAll('#user-name, #mobile-user-name').forEach(el => el.textContent = loggedInUser.name);
+            }
+        }
+
+        function renderAllCourses(filter = 'all') {
+            if (!coursesContainer) return;
+            coursesContainer.innerHTML = '';
+            const filteredCourses = coursesData.filter(course => filter === 'all' || course.type === filter);
+
+            filteredCourses.forEach(course => {
+                const card = courseCardTemplate.content.cloneNode(true);
+                card.querySelector('.course-card-link').href = `#course-detail/${course.id}`;
+                const courseImage = card.querySelector('.course-image');
+                courseImage.src = course.image.startsWith('http') ? course.image : course.image;
+                courseImage.alt = course.title;
+                card.querySelector('.course-category').textContent = course.category;
+                card.querySelector('.course-instructor-avatar').src = course.avatar;
+                card.querySelector('.course-instructor-avatar').alt = course.instructor;
+                card.querySelector('.course-title').textContent = course.title;
+                card.querySelector('.course-rating').textContent = course.rating;
+                card.querySelector('.course-reviews').textContent = `${course.reviews} ការវាយតម្លៃ`;
+                card.querySelector('.course-price').textContent = course.price;
+                card.querySelector('.course-price').className = `mt-3 text-xl font-bold ${course.price === 'ឥតគិតថ្លៃ' ? 'text-green-600' : 'text-blue-600'}`;
+                card.querySelector('.course-lessons').textContent = course.lessons;
+                card.querySelector('.course-students').textContent = course.students;
+                coursesContainer.appendChild(card);
+            });
+        }
+
+        function renderDashboard() {
+            if (!myCoursesContainer) return;
+            if (!loggedInUser || loggedInUser.enrolledCourses.length === 0) {
+                myCoursesContainer.innerHTML = `<p class="text-center text-gray-500 p-8">អ្នកមិនទាន់បានចុះឈ្មោះរៀនវគ្គសិក្សាណាមួយទេ។</p>`;
+                return;
+            }
+
+            myCoursesContainer.innerHTML = '';
+            loggedInUser.enrolledCourses.forEach(enrolled => {
+                const course = coursesData.find(c => c.id === enrolled.courseId);
+                if (course) {
+                    const item = dashboardItemTemplate.content.cloneNode(true);
+                    item.querySelector('.course-title').textContent = course.title;
+                    item.querySelector('.course-instructor').textContent = `ដោយ៖ ${course.instructor}`;
+                    item.querySelector('.telegram-link').href = course.telegramLink;
+                    myCoursesContainer.appendChild(item);
+                }
+            });
+        }
+        
+        function renderCourseDetail(courseId) {
+            const course = coursesData.find(c => c.id === courseId);
+            if(!courseDetailPage || !course) {
+                courseDetailPage.innerHTML = `<p class="text-center">រកមិនឃើញវគ្គសិក្សាទេ។</p>`;
+                return;
+            }
+
+            const isEnrolled = loggedInUser?.enrolledCourses.some(ec => ec.courseId === course.id);
+            
+            // --- ការកែប្រែប៊ូតុង ---
+            const buttonHtml = isEnrolled
+                ? `<a href="${course.telegramLink}" target="_blank" class="w-full text-center block bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 font-semibold">ចូលសិក្សា</a>`
+                : `<button class="enroll-btn w-full bg-blue-700 text-white py-3 px-4 rounded-md hover:bg-blue-800 font-semibold" data-course-id="${course.id}">ចុះឈ្មោះរៀន</button>`;
+
+            courseDetailPage.innerHTML = `
+                <div class="bg-blue-800 text-white p-8 rounded-lg mb-8">
+                    <p class="text-blue-300 font-semibold">${course.category}</p>
+                    <h1 class="text-4xl font-koulen mt-2">${course.title}</h1>
+                    <div class="flex items-center mt-4 space-x-4">
+                        <div class="flex items-center">
+                            <img src="${course.avatar}" class="w-10 h-10 rounded-full mr-3 border-2 border-white">
+                            <span>${course.instructor}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-koulen mb-4">អំពីវគ្គសិក្សា</h3>
+                    <p class="text-gray-700 leading-relaxed">${course.overview}</p>
+
+                    <h3 class="text-2xl font-koulen mt-6 mb-4">មាតិកាវគ្គសិក្សា</h3>
+                    <ul class="space-y-3">${course.curriculum.map(item => `<li class="flex items-center gap-3 p-3 bg-gray-50 rounded-md"><i class="fas fa-play-circle text-blue-500"></i>${item}</li>`).join('')}</ul>
+
+                    <h3 class="text-2xl font-koulen mt-6 mb-4">អត្ថប្រយោជន៍ដែលទទួលបាន</h3>
+                    <ul class="space-y-3 list-disc list-inside text-gray-700">${course.benefits.map(item => `<li>${item}</li>`).join('')}</ul>
+                    
+                    <div class="mt-8"> ${buttonHtml} </div>
+                </div>`;
+        }
+
+        function verifyCode() {
+            const input = document.getElementById('verification-code-input').value.trim();
+            const resultDiv = document.getElementById('verification-result');
+            if (!input) {
+                resultDiv.innerHTML = '';
+                return;
+            }
+
+            const foundCert = verifiedCertsDB.find(c => c.verificationCode === input);
+            if (foundCert) {
+                resultDiv.innerHTML = `
+                    <div class="border-l-4 border-green-500 bg-green-50 p-4 rounded-r-lg">
+                        <h3 class="text-lg font-bold text-green-800">បានផ្ទៀងផ្ទាត់ដោយជោគជ័យ</h3>
+                        <p><strong>ឈ្មោះសិស្ស:</strong> ${foundCert.studentName}</p>
+                        <p><strong>វគ្គសិក្សា:</strong> ${foundCert.courseName}</p>
+                        <p><strong>កាលបរិច្ឆេទបញ្ចប់:</strong> ${foundCert.completionDate}</p>
+                    </div>`;
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded-r-lg">
+                        <h3 class="text-lg font-bold text-red-800">រកមិនឃើញ</h3>
+                        <p>លេខកូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវទេ។ សូមព្យាយាមម្តងទៀត។</p>
+                    </div>`;
+            }
+        }
+
+        function navigate() {
+            const hash = window.location.hash.substring(1);
+            const [page, param] = hash.split('/');
+            
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const pageId = (page || 'home') + '-page';
+            const activePage = document.getElementById(pageId);
+
+            if (activePage) {
+                if (page === 'dashboard' && !loggedInUser) {
+                    window.location.hash = '#login';
+                    return;
+                }
+
+                if (page === 'course-detail') renderCourseDetail(parseInt(param));
+                if (page === 'courses' || page === 'home') renderAllCourses();
+                if (page === 'dashboard') renderDashboard();
+
+                activePage.classList.add('active');
+            } else {
+                document.getElementById('home-page').classList.add('active');
+            }
+            
+            document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === `#${page || 'home'}`);
+            });
+            window.scrollTo(0, 0);
+        }
+
+        // --- EVENT LISTENERS ---
+        window.addEventListener('hashchange', navigate);
+        window.addEventListener('load', () => {
+            navigate();
+            updateUIForLoginState();
+        });
+
+        // --- កូដថ្មីសម្រាប់គ្រប់គ្រងការចុចប៊ូតុងចុះឈ្មោះ ---
+        mainContent.addEventListener('click', function(e) {
+            // ពិនិត្យមើលថាតើអ្វីដែលបានចុចគឺជាប៊ូតុង "ចុះឈ្មោះរៀន" ឬអត់
+            if (e.target.matches('.enroll-btn')) {
+                e.preventDefault();
+
+                // ពិនិត្យមើលថាអ្នកប្រើប្រាស់បាន login ហើយឬនៅ
+                if (!loggedInUser) {
+                    alert('សូមចូលគណនីជាមុនសិន ទើបអាចចុះឈ្មោះរៀនបាន។');
+                    window.location.hash = '#login';
+                    return;
+                }
+
+                // យក ID របស់វគ្គសិក្សាចេញពី data-attribute
+                const courseId = parseInt(e.target.dataset.courseId);
+
+                // ពិនិត្យមើលថាសិស្សមិនទាន់បានចុះឈ្មោះវគ្គនេះពីមុន
+                const isAlreadyEnrolled = loggedInUser.enrolledCourses.some(c => c.courseId === courseId);
+
+                if (isAlreadyEnrolled) {
+                    alert('អ្នកបានចុះឈ្មោះរៀនវគ្គសិក្សានេះរួចហើយ។');
+                } else {
+                    // បន្ថែមវគ្គសិក្សាទៅក្នុងទិន្នន័យរបស់សិស្ស
+                    loggedInUser.enrolledCourses.push({ courseId: courseId });
+                    alert('អ្នកបានចុះឈ្មោះរៀនបានដោយជោគជ័យ!');
+                    
+                    // បង្ហាញប៊ូតុង "ចូលសិក្សា" ឡើងវិញ
+                    renderCourseDetail(courseId);
+                }
+            }
+        });
+
+        document.getElementById('login-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            login(document.getElementById('student-name').value.trim(), document.getElementById('student-id').value.trim());
+        });
+
+        document.querySelectorAll('#logout-btn, #mobile-logout-btn').forEach(btn => btn.addEventListener('click', logout));
+        
+        document.getElementById('course-filters')?.addEventListener('click', (e) => {
+            if (e.target.matches('.filter-btn')) {
+                document.querySelector('#course-filters .filter-btn.active')?.classList.remove('active', 'bg-blue-700', 'text-white');
+                e.target.classList.add('active', 'bg-blue-700', 'text-white');
+                renderAllCourses(e.target.dataset.filter);
+            }
+        });
+
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+           link.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('hidden'));
+        });
+
+        document.getElementById('verify-btn')?.addEventListener('click', verifyCode);
+    });
+    </script>
+</body>
+</html>
