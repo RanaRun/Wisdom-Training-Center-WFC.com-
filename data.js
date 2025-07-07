@@ -7,5 +7,5 @@ const studentsDB = [
 
 const verifiedCertsDB = [
     { studentName: 'កែវ សុវណ្ណបូរមី', courseName: 'វេយ្យាករណ៍ និងតែងសេចក្ដី', completionDate: '2025-06-15', verificationCode: 'MBP-06-2025' },
-	 { studentName: 'កែវ សុវណ្ណបូមី', courseName: 'វេយ្យាករណ៍ និងតែងសេចក្ដី', completionDate: '2025-06-15', verificationCode: 'MBP-07-2025' }
+	 { studentName: 'សុខ ចាន់ថា', courseName: 'វេយ្យាករណ៍ និងតែងសេចក្ដី', completionDate: '2025-06-15', verificationCode: 'MBP-07-2025' }
 ];
