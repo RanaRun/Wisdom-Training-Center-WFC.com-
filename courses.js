@@ -35,7 +35,7 @@ const coursesData = [
         lessons: 25,
         students: 20,
         duration: "៣ខែ",
-        telegramLink: "https://t.me/Ranarun2002",
+        telegramLink: "https://t.me/+GRVRIQaOf88zNWNl",
         overview: "ពង្រឹងមូលដ្ឋានគ្រឹះវេយ្យាករណ៍ និងរៀនពីបច្ចេកទេសសរសេរតែងសេចក្ដីឲ្យបានល្អ។",
         curriculum: ["មេរៀនទី១: ផ្នែកនៃពាក្យ", "មេរៀនទី២: រចនាសម្ព័ន្ធនៃល្បះ"],
         instructor_bio: "លោក មាន បញ្ញា បច្ចុប្បន្នជាអ្នកនិពន្ធមួយរូប",
