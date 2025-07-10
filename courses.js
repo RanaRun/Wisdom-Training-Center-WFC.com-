@@ -6,7 +6,7 @@ const coursesData = [
         title: "មូលដ្ឋានអង់គ្លេស",
         category: "ភាសាអង់គ្លេស",
         type: 'free',
-        instructor: "តេជគុណ ចាន់ណារិទ្ធ សំរិត",
+        instructor: "តេជគុណ ចាន់ណារិទ្ធ សំរ៉ិត",
         avatar: "https://placehold.co/40x40/3B82F6/FFFFFF?text=P",
         image: "basic-english.png",
         rating: 4.5,
