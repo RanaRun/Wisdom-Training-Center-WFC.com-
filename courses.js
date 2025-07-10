@@ -1,4 +1,4 @@
-​​// courses.js
+// courses.js
 
 const coursesData = [
     {

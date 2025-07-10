@@ -1,4 +1,4 @@
-​​​   // data.js
+   // data.js
 
 const studentsDB = [
     { id: '110725', name: 'លី ស្រីនាង', enrolledCourses: [{ courseId: 3  }] },
