@@ -15,7 +15,7 @@ const coursesData = [
         lessons: 30,
         students: 20,
         duration: "៣ខែ",
-        telegramLink: "https://t.me/Ranarun2002",
+        telegramLink: "​https://t.me/+QGlcHfLNbSY3ODll",
         overview: "វគ្គសិក្សានេះនឹងគ្របដណ្ដប់លើគ្រប់ទិដ្ឋភាពសំខាន់ៗនៃមូលដ្ឋានអង់គ្លេស...",
         curriculum: ["មេរៀនទី១៖ អក្ខរក្រម និងការស្វាគមន៍", "មេរៀនទី២៖ សព្វនាម និងកិរិយាស័ព្ទ 'To Be'", "មេរៀនទី៣៖ នាមឯកវចនៈ/ពហុវចនៈ"],
         instructor_bio: "ព្រះតេជគុណ ចាន់ណារិទ្ធ សំរិត បច្ចុប្បន្នកំពុងសិក្សាថ្នាក់បរិញ្ញាបត្រ។",
