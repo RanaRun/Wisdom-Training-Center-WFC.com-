@@ -1,4 +1,4 @@
-// courses.js
+​​// courses.js
 
 const coursesData = [
     {
@@ -55,7 +55,7 @@ const coursesData = [
         lessons: 20,
         students: 20,
         duration: "៣ខែ",
-        telegramLink: "https://t.me/Ranarun2002",
+        telegramLink: "https://t.me/+CmWt473P84RmNTk1",
         overview: "សិក្សាពីការប្រើប្រាស់ត្រឹមតែឃ្លាសាមញ្ញៗ ទៅជាអាចសន្ទនាដោយត្រង់ៗ និងងាយៗអំពីជីវិតប្រចាំថ្ងៃបាន",
         curriculum: ["ជាក់ស្ដែង"],
         instructor_bio: "កញ្ញា ពៅ សុជាតា បច្ចុប្បន្នកំពុងសិក្សាថ្នាក់បរិញ្ញាបត្រ។",
